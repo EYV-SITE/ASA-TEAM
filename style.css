@@ -15,9 +15,9 @@ header {
 
 button {
     display: block;          /* Hace que cada botón ocupe su propia línea */
-    width: 320px;            /* Ancho fijo para que todos midan exactamente lo mismo */
+    width: 390px;            /* Ancho fijo para que todos midan exactamente lo mismo */
     padding: 20px;           /* Espacio interno para que sean altos */
-    margin: 20px auto;       /* 20px de separación arriba/abajo y centrado automático */
+    margin: 30px auto;       /* 30px de separación arriba/abajo y centrado automático */
     
     font-size: 18px;         /* Texto grande y legible */
     font-weight: bold;
