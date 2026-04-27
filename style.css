@@ -14,22 +14,24 @@ header {
 }
 
 button {
-    padding: 20px 40px;      /* Aumenta el espacio interno (más alto y ancho) */
-    font-size: 18px;         /* Hace que el texto sea más legible */
-    font-weight: bold;       /* Texto en negrita para que destaque */
-    margin: 10px;            /* Espacio entre un botón y otro */
-    min-width: 250px;        /* Asegura que todos tengan el mismo ancho mínimo */
-    cursor: pointer;
-    border-radius: 8px;      /* Bordes un poco más redondeados */
-    border: none;
-    background-color: #003D75;
+    display: block;          /* Hace que cada botón ocupe su propia línea */
+    width: 320px;            /* Ancho fijo para que todos midan exactamente lo mismo */
+    padding: 20px;           /* Espacio interno para que sean altos */
+    margin: 20px auto;       /* 20px de separación arriba/abajo y centrado automático */
+    
+    font-size: 18px;         /* Texto grande y legible */
+    font-weight: bold;
     color: white;
-    transition: transform 0.2s; /* Efecto suave al pasar el mouse */
-    display: block;
-    margin: 10px auto;
+    background-color: #0070f3;
+    border: none;
+    border-radius: 10px;     /* Bordes redondeados más elegantes */
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
 button:hover {
-    background-color: #0051a2;
+    background-color: #0051a2; /* Color más oscuro al pasar el mouse */
+}
+
     transform: scale(1.05);  /* El botón crece un poquito al tocarlo */
 }
