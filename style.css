@@ -22,9 +22,11 @@ button {
     cursor: pointer;
     border-radius: 8px;      /* Bordes un poco más redondeados */
     border: none;
-    background-color: #0070f3;
+    background-color: #003D75;
     color: white;
     transition: transform 0.2s; /* Efecto suave al pasar el mouse */
+    display: block
+    margin: 10px auto
 }
 
 button:hover {
