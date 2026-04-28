@@ -15,37 +15,7 @@
     </div>
 
     <main> ```
-* **Importante:** Asegúrate de que `src="logo_asa.png"` coincida exactamente con el nombre y la extensión del archivo que subiste a GitHub.
 
----
-
-### Paso 3: Crear el estilo en el archivo `style.css` (Para el ajuste fácil)
-
-Ahora vamos a darle las instrucciones a la página sobre cómo mostrar esa imagen. Esto es lo que te permitirá moverla fácilmente.
-
-1.  Abre `style.css` en GitHub y dale al lápiz.
-2.  Al final de todo el código que tengas, pega esto:
-
-```css
-/* --- ESTILOS PARA LA IMAGEN PRINCIPAL --- */
-
-/* 1. El Contenedor (Sirve para la POSICIÓN) */
-.contenedor-imagen-principal {
-    display: flex;
-    justify-content: center; /* Opciones: center (centrado), flex-start (izquierda), flex-end (derecha) */
-    margin-top: 20px;       /* Espacio arriba */
-    margin-bottom: 20px;    /* Espacio abajo */
-    padding: 0 10px;        /* Espacio a los lados para que no toque los bordes en celular */
-}
-
-/* 2. La Imagen misma (Sirve para el TAMAÑO) */
-.imagen-principal {
-    max-width: 300px;       /* Ancho máximo de la imagen (Ajústalo a tu gusto) */
-    width: 100%;            /* Se adapta al ancho si la pantalla es pequeña */
-    height: auto;           /* Mantiene la proporción para que no se deforme */
-    border-radius: 8px;     /* Bordes redondeados (opcional, bórralo si no te gusta) */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra suave (opcional) */
-}
     <main>
         <section id="contenido">
             <p>Desarrollado exclusivamente para ASA AUTOMATION SpA.</p>
