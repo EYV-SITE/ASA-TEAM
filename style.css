@@ -33,10 +33,17 @@ button:hover {
     background-color: #0051a2; /* Color más oscuro al pasar el mouse */
 }
 
-    transform: scale(1.05);  /* El botón crece un poquito al tocarlo */
+    transform: scale(1.15);  /* El botón crece un poquito al tocarlo */
 }
 footer p {
     font-size: 0.85rem; /* Tamaño de letra un poco más pequeño */
     margin: 5px 0;      /* Espacio pequeño entre las dos líneas */
     color: #666;        /* Un color gris suave para que no distraiga */
+}
+{
+    text-decoration: none; /* Esto elimina la línea de abajo */
+}
+
+a:hover {
+    text-decoration: none; /* Asegura que no aparezca ni al pasar el mouse */
 }
