@@ -23,3 +23,21 @@ function cerrarVisor() {
     // Al cerrar, volvemos automáticamente arriba de la página
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+// --- Lógica para el Plan Anual ---
+
+const btnPlan = document.getElementById('btnReportes');
+const visorPlan = document.getElementById('contenedorPlan');
+
+btnPlan.addEventListener('click', function() {
+    if (visorPlan.style.display === "none") {
+        visorPlan.style.display = "block";
+        visorPlan.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        visorPlan.style.display = "none";
+    }
+});
+
+function cerrarPlan() {
+    document.getElementById('contenedorPlan').style.display = "none";
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
