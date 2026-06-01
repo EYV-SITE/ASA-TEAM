@@ -1,30 +1,81 @@
-// 1. Identificamos el botón de inventario y el cuadro del visor
+// --- 1. CONFIGURACIÓN DEL SISTEMA DE LOGIN ---
+const URL_API = "https://script.google.com/macros/s/AKfycbzifh_OFapV6c7LAbHuN8_nhgXp04eg6PmnTzTeyQ3hfZ4d8sYhghDd69-R1DkDcnac/exec"; 
+
+const seccionLogin = document.getElementById('seccion-login');
+const seccionContenido = document.getElementById('contenido');
+const btnIngresar = document.getElementById('btnIngresar');
+const mensajeError = document.getElementById('mensajeError');
+
+btnIngresar.addEventListener('click', function() {
+    const usuarioIngresado = document.getElementById('inputUsuario').value.trim();
+    const claveIngresada = document.getElementById('inputClave').value.trim();
+    
+    if (usuarioIngresado === "" || claveIngresada === "") {
+        mostrarError("Por favor, completa todos los campos.");
+        return;
+    }
+    
+    btnIngresar.innerText = "Verificando...";
+    btnIngresar.disabled = true;
+    mensajeError.style.display = "none";
+
+    // Consulta al Google Sheet en segundo plano
+    fetch(URL_API)
+        .then(response => response.json())
+        .then(usuarios => {
+            const usuarioValido = usuarios.find(u => 
+                u.usuario.toLowerCase() === usuarioIngresado.toLowerCase() && 
+                u.clave === claveIngresada && 
+                u.estado.toLowerCase() === "activo"
+            );
+
+            if (usuarioValido) {
+                // Acceso concedido: se oculta el login y aparece la botonera
+                seccionLogin.style.display = "none";
+                seccionContenido.style.display = "block";
+            } else {
+                mostrarError("Usuario/Clave incorrectos o cuenta inactiva.");
+                reestablecerBoton();
+            }
+        })
+        .catch(error => {
+            console.error("Error conectando con la base de datos:", error);
+            mostrarError("Error de conexión. Inténtalo de nuevo.");
+            reestablecerBoton();
+        });
+});
+
+function mostrarError(texto) {
+    mensajeError.innerText = texto;
+    mensajeError.style.display = "block";
+}
+
+function reestablecerBoton() {
+    btnIngresar.innerText = "Ingresar";
+    btnIngresar.disabled = false;
+}
+
+
+// --- 2. LÓGICA PARA VISOR DE INVENTARIO (ARCHIVO MAESTRO) ---
 const botonInventario = document.getElementById('btnInventario');
 const visor = document.getElementById('contenedorPDF');
 
-// 2. Programamos qué pasa cuando haces clic en el botón
 botonInventario.addEventListener('click', function() {
-    // Si el visor está oculto (none), lo mostramos (block)
     if (visor.style.display === "none") {
         visor.style.display = "block";
-        
-        // Esto hace que la página baje suavemente hasta el PDF
         visor.scrollIntoView({ behavior: 'smooth' });
     } else {
-        // Si ya estaba abierto, lo volvemos a ocultar
         visor.style.display = "none";
     }
 });
 
-// 3. Función especial para el botón rojo de "Cerrar Visor"
 function cerrarVisor() {
     document.getElementById('contenedorPDF').style.display = "none";
-    
-    // Al cerrar, volvemos automáticamente arriba de la página
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-// --- Lógica para el Plan Anual ---
 
+
+// --- 3. LÓGICA PARA VISOR DEL PLAN ANUAL ---
 const btnPlan = document.getElementById('btnReportes');
 const visorPlan = document.getElementById('contenedorPlan');
 
