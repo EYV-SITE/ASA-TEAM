@@ -23,10 +23,11 @@
             margin: 0;
             font-size: 24px;
         }
-        header img {
-            max-height: 80px;
+        /* Estilo para el logo ubicado ahora bajo el header */
+        .logo-contenedor {
             display: block;
-            margin: 0 auto 10px auto;
+            max-height: 80px;
+            margin: 15px auto;
         }
         main {
             padding: 20px;
@@ -65,9 +66,10 @@
 <body>
 
     <header>
-        <img src="LOGO ASA JPG.jpg" alt="Logo ASA">
         <h1>ASA Team Chile</h1>
     </header>
+
+    <img src="LOGO ASA JPG.jpg" alt="Logo ASA" class="logo-contenedor">
 
     <main>
         <section id="seccion-login" style="max-width: 350px; margin: 40px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9; text-align: center;">
@@ -120,7 +122,7 @@
     </main>
 
     <footer>
-        <p>&copy; E y V solutions</p>
+        <p>&copy; E y V solutions - 2026</p>
     </footer>
 
     <script src="script.js"></script>
