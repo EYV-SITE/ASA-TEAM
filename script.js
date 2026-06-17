@@ -71,11 +71,13 @@ const btnCancelarModal = document.getElementById('btnCancelarModal');
 const visor = document.getElementById('contenedorPDF');
 const iframeInventario = document.getElementById('iframeInventario');
 
-// Enlace dinámico para la versión editable (Mantiene la interfaz limpia rm=minimal)
+// Enlace dinámico para la versión editable (Interfaz limpia rm=minimal)
 const urlEditable = "https://docs.google.com/spreadsheets/d/1i_ZB-IuV3Pt1tiE4U8_9uEtLkNdRIZ3B2AXo_y5C6SM/edit?rm=minimal&gid=689203295";
 
-// ESTRUCTURA CORRECTA DE PUBLICACIÓN: Enlace nativo de Google publicado para la pestaña INVENTARIO (gid=689203295)
-const urlPDFEnVivo = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR6zOny6UoV3_lHwLOfmRjZ1gq5A3B8o9m_v16SM_y_0VExoN9_u7mN2YdC58ZgZ-M97PZ-0H796tUe/pubhtml?gid=689203295&single=true&widget=false&headers=false&chrome=false";
+// Enlace de publicación real entregado por el usuario
+const urlPublicadaBase = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRieNBp5mb2x6boZYgA0Ys4EJh9kqVsYhsMhB1o9XrGYyJfHE8UoVr0lD2zv9pp02C6cYyi0G-BryWE/pubhtml?gid=689203295&single=true"; 
+// Inyección dinámica de parámetros para limpiar cabeceras, bordes y el menú de Google
+const urlPDFEnVivo = urlPublicadaBase + "&widget=false&headers=false&chrome=false";
 
 // 1. Al presionar el botón principal del portal, abrimos el cuadro elegante
 if (botonInventario) {
@@ -98,7 +100,7 @@ if (btnOptPDF) {
         if (iframeInventario) {
             iframeInventario.src = urlPDFEnVivo;
             iframeInventario.style.width = "100%";
-            iframeInventario.style.height = "500px"; // Altura cómoda para roller mouse
+            iframeInventario.style.height = "500px"; // Altura cómoda para el roller mouse
         }
         if (visor) {
             visor.style.display = "block";
@@ -122,29 +124,3 @@ if (btnCancelarModal) {
 function cerrarVisor() {
     if (visor) visor.style.display = "none";
     if (iframeInventario) iframeInventario.src = ""; // Limpia el contenido para liberar memoria
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-
-// --- 3. LÓGICA PARA VISOR DEL PLAN ANUAL ---
-const btnPlan = document.getElementById('btnReportes');
-const visorPlan = document.getElementById('contenedorPlan');
-
-if (btnPlan) {
-    btnPlan.addEventListener('click', function() {
-        if (visorPlan) {
-            if (visorPlan.style.display === "none" || visorPlan.style.display === "") {
-                visorPlan.style.display = "block";
-                visorPlan.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                visorPlan.style.display = "none";
-            }
-        }
-    });
-}
-
-function cerrarPlan() {
-    const vp = document.getElementById('contenedorPlan');
-    if (vp) vp.style.display = "none";
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
