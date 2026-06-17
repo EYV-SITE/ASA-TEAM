@@ -73,8 +73,9 @@ const iframeInventario = document.getElementById('iframeInventario');
 
 // Enlaces dinámicos optimizados con las IDs correctas y la pestaña de Inventario (689203295)
 const urlEditable = "https://docs.google.com/spreadsheets/d/1i_ZB-IuV3Pt1tiE4U8_9uEtLkNdRIZ3B2AXo_y5C6SM/edit?rm=minimal&gid=689203295";
-// PLAN B: Usamos /preview con la ID de la hoja para activar el visor nativo de documentos de Google
-const urlPDFEnVivo = "https://docs.google.com/spreadsheets/d/1i_ZB-IuV3Pt1tiE4U8_9uEtLkNdRIZ3B2AXo_y5C6SM/preview?gid=689203295";
+
+// FORMATO DE ANCHO COMPLETO: Forzamos la visualización limpia y estirada al 100% omitiendo los bordes de Google
+const urlPDFEnVivo = "https://docs.google.com/spreadsheets/d/1i_ZB-IuV3Pt1tiE4U8_9uEtLkNdRIZ3B2AXo_y5C6SM/pubhtml?gid=689203295&single=true&widget=false&headers=false&chrome=false";
 
 // 1. Al presionar el botón principal del portal, abrimos el cuadro elegante
 if (botonInventario) {
@@ -97,11 +98,12 @@ if (btnOptPDF) {
         if (iframeInventario) {
             iframeInventario.src = urlPDFEnVivo;
             iframeInventario.style.width = "100%";
-            iframeInventario.style.height = "550px"; // Altura optimizada para la lectura con roller mouse
+            iframeInventario.style.height = "500px"; // Altura cómoda para roller mouse
         }
         if (visor) {
             visor.style.display = "block";
             visor.style.width = "100%";
+            visor.style.maxWidth = "100%"; // Rompe cualquier limitación de la botonera central
             visor.style.boxSizing = "border-box";
         }
         if (modalInventario) modalInventario.style.display = "none";
