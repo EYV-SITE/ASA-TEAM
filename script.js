@@ -71,11 +71,11 @@ const btnCancelarModal = document.getElementById('btnCancelarModal');
 const visor = document.getElementById('contenedorPDF');
 const iframeInventario = document.getElementById('iframeInventario');
 
-// Enlaces dinámicos optimizados con las IDs correctas y la pestaña de Inventario (689203295)
+// Enlace dinámico para la versión editable (Mantiene la interfaz limpia rm=minimal)
 const urlEditable = "https://docs.google.com/spreadsheets/d/1i_ZB-IuV3Pt1tiE4U8_9uEtLkNdRIZ3B2AXo_y5C6SM/edit?rm=minimal&gid=689203295";
 
-// FORMATO DE ANCHO COMPLETO: Forzamos la visualización limpia y estirada al 100% omitiendo los bordes de Google
-const urlPDFEnVivo = "https://docs.google.com/spreadsheets/d/1i_ZB-IuV3Pt1tiE4U8_9uEtLkNdRIZ3B2AXo_y5C6SM/pubhtml?gid=689203295&single=true&widget=false&headers=false&chrome=false";
+// ESTRUCTURA CORRECTA DE PUBLICACIÓN: Enlace nativo de Google publicado para la pestaña INVENTARIO (gid=689203295)
+const urlPDFEnVivo = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR6zOny6UoV3_lHwLOfmRjZ1gq5A3B8o9m_v16SM_y_0VExoN9_u7mN2YdC58ZgZ-M97PZ-0H796tUe/pubhtml?gid=689203295&single=true&widget=false&headers=false&chrome=false";
 
 // 1. Al presionar el botón principal del portal, abrimos el cuadro elegante
 if (botonInventario) {
@@ -103,7 +103,7 @@ if (btnOptPDF) {
         if (visor) {
             visor.style.display = "block";
             visor.style.width = "100%";
-            visor.style.maxWidth = "100%"; // Rompe cualquier limitación de la botonera central
+            visor.style.maxWidth = "100%";
             visor.style.boxSizing = "border-box";
         }
         if (modalInventario) modalInventario.style.display = "none";
