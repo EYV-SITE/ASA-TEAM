@@ -101,7 +101,7 @@
             <button id="btnInventario">Archivo Maestro Inventario</button>
 
             <div id="contenedorPDF" style="display:none; margin-top: 20px; border: 2px solid #0070f3; border-radius: 8px; overflow: hidden;">
-                <iframe src="STOCK.pdf" width="100%" height="700px" style="border: none;"></iframe>
+                <iframe id="iframeInventario" src="" width="100%" height="700px" style="border: none;"></iframe>
                 <div style="text-align: center; padding: 10px; background-color: #f4f4f4;">
                     <button onclick="cerrarVisor()" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; max-width: 200px; margin: 0 auto;">Cerrar Visor</button>
                 </div>
@@ -120,6 +120,17 @@
              
         </section>
     </main>
+
+    <div id="modalInventario" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center;">
+        <div style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: center; max-width: 450px; width: 90%;">
+            <h3 style="margin-top: 0; color: #003D75; font-size: 20px; margin-bottom: 25px;">¿Qué versión deseas revisar?</h3>
+            
+            <button id="btnOptEditable" style="margin: 15px auto; width: 100%;">Versión Editable (Vista Previa)</button>
+            <button id="btnOptPDF" style="margin: 15px auto; width: 100%;">Versión PDF (Solo Lectura)</button>
+            
+            <a href="#" id="btnCancelarModal" style="display: block; margin-top: 20px; color: #dc3545; font-weight: bold; text-decoration: none; font-size: 14px;">Cancelar</a>
+        </div>
+    </div>
 
     <footer>
         <p>&copy; EyV Solutions - 2026</p>
