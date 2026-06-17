@@ -90,14 +90,19 @@ if (btnOptEditable) {
     });
 }
 
-// 3. Si elige la versión PDF: Inyecta el contenido en vivo y ajusta el tamaño del contenedor
+// 3. Si elige la versión PDF: Inyecta el contenido en vivo, estira el ancho al 100% y define la altura
 if (btnOptPDF) {
     btnOptPDF.addEventListener('click', function() {
         if (iframeInventario) {
             iframeInventario.src = urlPDFEnVivo;
-            iframeInventario.style.height = "500px"; // Altura más compacta para usar cómodamente el roller mouse
+            iframeInventario.style.width = "100%";   // AJUSTE: Asegura que el iframe ocupe todo el ancho disponible
+            iframeInventario.style.height = "500px";  // Altura compacta para usar el roller mouse
         }
-        if (visor) visor.style.display = "block";
+        if (visor) {
+            visor.style.display = "block";
+            visor.style.width = "100%";               // AJUSTE: Asegura que el contenedor azul se expanda al máximo
+            visor.style.boxSizing = "border-box";
+        }
         if (modalInventario) modalInventario.style.display = "none";
         if (visor) visor.scrollIntoView({ behavior: 'smooth' });
     });
@@ -113,7 +118,7 @@ if (btnCancelarModal) {
 
 function cerrarVisor() {
     if (visor) visor.style.display = "none";
-    if (iframeInventario) iframeInventario.src = ""; // Limpia el contenido para liberar memoria del navegador
+    if (iframeInventario) iframeInventario.src = ""; // Limpia el contenido para liberar memoria
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
