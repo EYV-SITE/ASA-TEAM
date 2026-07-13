@@ -4,7 +4,8 @@
 // =========================================================================
 
 // --- 1. CONFIGURACIÓN DEL SISTEMA DE LOGIN ---
-const URL_API = "https://script.google.com/macros/s/AKfycbzifh_OFapV6c7LAbHuN8_nhgXp04eg6PmnTzTeyQ3hfZ4d8sYhghDd69-R1DkDcnac/exec"; 
+// URL de tu API actualizada e implementada para soportar login e ID de PDF dinámico
+const URL_API = "https://script.google.com/macros/s/AKfycbwY5qzIVzXSzfa0-MXuJquOdU8LR8Z4EGT55ltRXx6-QxhiizzJ9nco09o41lhH3DI/exec"; 
 
 const seccionLogin = document.getElementById('seccion-login');
 const seccionContenido = document.getElementById('contenido');
@@ -79,8 +80,30 @@ const iframeInventario = document.getElementById('iframeInventario');
 // Enlace dinámico para la versión editable
 const urlEditable = "https://docs.google.com/spreadsheets/d/1i_ZB-IuV3Pt1tiE4U8_9uEtLkNdRIZ3B2AXo_y5C6SM/edit?rm=minimal&gid=689203295";
 
-// Enlace base actualizado de tu nuevo PDF en Drive
-const urlPDFBase = "https://drive.google.com/file/d/1pC2xP6WJfCte5W83J9h-Om9n06muznqv/preview";
+// Variable global donde almacenaremos el ID dinámico obtenido desde Drive
+let pdfIdDinamico = "";
+
+// Función para ir a buscar el ID del archivo "PLAN.pdf" por su nombre a tu carpeta de Drive
+function cargarIdPdfDinamico() {
+    const urlConsulta = URL_API + "?action=get_pdf";
+    
+    fetch(urlConsulta)
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.status === "success") {
+                pdfIdDinamico = data.id;
+                console.log("ID de PDF cargado con éxito: " + pdfIdDinamico);
+            } else {
+                console.error("Error al buscar el PDF en Drive: ", data.message);
+            }
+        })
+        .catch(err => {
+            console.error("Error de conexión con la API de Google al buscar el PDF:", err);
+        });
+}
+
+// Ejecutamos la consulta inmediatamente al cargar la página para tener el ID listo
+cargarIdPdfDinamico();
 
 if (botonInventario) {
     botonInventario.addEventListener('click', function() {
@@ -97,8 +120,16 @@ if (btnOptEditable) {
 
 if (btnOptPDF) {
     btnOptPDF.addEventListener('click', function() {
+        // En caso de que la conexión sea lenta y la API de Sheets no haya devuelto el ID aún
+        if (!pdfIdDinamico) {
+            alert("El sistema aún está localizando el archivo PLAN.pdf en tu Drive. Por favor, espera 2 segundos e intenta nuevamente.");
+            cargarIdPdfDinamico(); // Volvemos a intentar la consulta
+            return;
+        }
+
         if (iframeInventario) {
-            iframeInventario.src = urlPDFBase + "?v=" + new Date().getTime();
+            // Reconstrucción dinámica del visor apuntando al ID obtenido por nombre
+            iframeInventario.src = "https://drive.google.com/file/d/" + pdfIdDinamico + "/preview?v=" + new Date().getTime();
             iframeInventario.style.width = "100%";
             iframeInventario.style.height = "600px"; 
         }
