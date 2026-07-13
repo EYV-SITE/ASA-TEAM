@@ -4,8 +4,8 @@
 // =========================================================================
 
 // --- 1. CONFIGURACIÓN DEL SISTEMA DE LOGIN ---
-// URL de tu API actualizada e implementada para soportar login e ID de PDF dinámico
-const URL_API = "https://script.google.com/macros/s/AKfycbwY5qzIVzXSzfa0-MXuJquOdU8LR8Z4EGT55ltRXx6-QxhiizzJ9nco09o41lhH3DI/exec"; 
+// URL que maneja la base de datos de usuarios y claves (NO MODIFICAR)
+const URL_API_LOGIN = "https://script.google.com/macros/s/AKfycbzifh_OFapV6c7LAbHuN8_nhgXp04eg6PmnTzTeyQ3hfZ4d8sYhghDd69-R1DkDcnac/exec"; 
 
 const seccionLogin = document.getElementById('seccion-login');
 const seccionContenido = document.getElementById('contenido');
@@ -26,8 +26,8 @@ if (btnIngresar) {
         btnIngresar.disabled = true;
         mensajeError.style.display = "none";
 
-        // Consulta al Google Sheet en segundo plano
-        fetch(URL_API)
+        // Consulta al Google Sheet de USUARIOS en segundo plano
+        fetch(URL_API_LOGIN)
             .then(response => response.json())
             .then(usuarios => {
                 const usuarioValido = usuarios.find(u => 
@@ -45,7 +45,7 @@ if (btnIngresar) {
                 }
             })
             .catch(error => {
-                console.error("Error conectando con la base de datos:", error);
+                console.error("Error conectando con la base de datos de usuarios:", error);
                 mostrarError("Error de conexión. Inténtalo de nuevo.");
                 reestablecerBoton();
             });
@@ -80,12 +80,15 @@ const iframeInventario = document.getElementById('iframeInventario');
 // Enlace dinámico para la versión editable
 const urlEditable = "https://docs.google.com/spreadsheets/d/1i_ZB-IuV3Pt1tiE4U8_9uEtLkNdRIZ3B2AXo_y5C6SM/edit?rm=minimal&gid=689203295";
 
+// URL de la API del PDF Inventario para buscar el archivo por nombre
+const URL_API_PDF = "https://script.google.com/macros/s/AKfycbwY5qzIVzXSzfa0-MXuJquOdU8LR8Z4EGT55ltRXx6-QxhiizzJ9nco09o41lhH3DI/exec";
+
 // Variable global donde almacenaremos el ID dinámico obtenido desde Drive
 let pdfIdDinamico = "";
 
 // Función para ir a buscar el ID del archivo "PLAN.pdf" por su nombre a tu carpeta de Drive
 function cargarIdPdfDinamico() {
-    const urlConsulta = URL_API + "?action=get_pdf";
+    const urlConsulta = URL_API_PDF + "?action=get_pdf";
     
     fetch(urlConsulta)
         .then(response => response.json())
@@ -120,7 +123,7 @@ if (btnOptEditable) {
 
 if (btnOptPDF) {
     btnOptPDF.addEventListener('click', function() {
-        // En caso de que la conexión sea lenta y la API de Sheets no haya devuelto el ID aún
+        // En caso de que la conexión sea lenta y la API del PDF no haya devuelto el ID aún
         if (!pdfIdDinamico) {
             alert("El sistema aún está localizando el archivo PLAN.pdf en tu Drive. Por favor, espera 2 segundos e intenta nuevamente.");
             cargarIdPdfDinamico(); // Volvemos a intentar la consulta
