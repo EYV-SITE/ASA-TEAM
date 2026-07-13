@@ -80,10 +80,8 @@ const iframeInventario = document.getElementById('iframeInventario');
 // Enlace dinámico para la versión editable (Interfaz limpia rm=minimal)
 const urlEditable = "https://docs.google.com/spreadsheets/d/1i_ZB-IuV3Pt1tiE4U8_9uEtLkNdRIZ3B2AXo_y5C6SM/edit?rm=minimal&gid=689203295";
 
-// Enlace de publicación real entregado por el usuario
-const urlPublicadaBase = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRieNBp5mb2x6boZYgA0Ys4EJh9kqVsYhsMhB1o9XrGYyJfHE8UoVr0lD2zv9pp02C6cYyi0G-BryWE/pubhtml?gid=689203295&single=true"; 
-// Inyección dinámica de parámetros para limpiar cabeceras, bordes y el menú de Google
-const urlPDFEnVivo = urlPublicadaBase + "&widget=false&headers=false&chrome=false";
+// Enlace optimizado del PDF dinámico que se auto-actualiza en Google Drive
+const urlPDFEnVivo = "https://drive.google.com/file/d/16qHARvfO0x68ekM5fmmhWC_0-eKK0Fgy/preview";
 
 // 1. Al presionar el botón principal del portal, abrimos el cuadro elegante
 if (botonInventario) {
@@ -106,7 +104,7 @@ if (btnOptPDF) {
         if (iframeInventario) {
             iframeInventario.src = urlPDFEnVivo;
             iframeInventario.style.width = "100%";
-            iframeInventario.style.height = "500px"; // Altura cómoda para el roller mouse
+            iframeInventario.style.height = "600px"; // Altura idéntica y cómoda para visualización completa
         }
         if (visor) {
             visor.style.display = "block";
