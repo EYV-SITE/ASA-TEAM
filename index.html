@@ -63,12 +63,22 @@
         }
 
         /* --- ESTILOS RESPONSABLES COMERCIALES --- */
+        #contenedorResponsables {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border: 2px solid #0070f3;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
         .btn-container { 
             display: flex; 
             gap: 10px; 
             flex-wrap: wrap; 
             justify-content: center;
-            margin: 20px auto; 
+            margin: 20px auto 0 auto; 
             max-width: 1000px;
         }
         
@@ -87,7 +97,7 @@
             justify-content: center;
             text-align: center;
             box-sizing: border-box;
-            margin: 0; /* Anula el margin auto general de los botones */
+            margin: 0;
         }
         .btn-cliente:hover { background-color: #0056b3; }
 
@@ -109,11 +119,13 @@
             width: 90%;
             position: relative;
             text-align: left;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
         .modal-content h3 {
             color: #007bff;
             margin-top: 0;
+            padding-right: 25px; /* Espacio para que no choque con la X */
         }
 
         .modal-content hr {
@@ -122,9 +134,17 @@
             margin: 15px 0;
         }
 
+        /* Botón X de cierre corregido */
         .close-btn {
-            position: absolute; top: 10px; right: 15px; 
-            font-size: 20px; cursor: pointer; color: #888;
+            position: absolute; 
+            top: 12px; 
+            right: 15px; 
+            font-size: 24px; 
+            font-weight: bold;
+            cursor: pointer; 
+            color: #555;
+            line-height: 1;
+            transition: color 0.2s ease;
         }
         .close-btn:hover { color: #000; }
     </style>
@@ -175,13 +195,13 @@
                 </div>
             </div>
 
-            <!-- Botón 3: NUEVO -->
+            <!-- Botón 3: Responsables Comerciales -->
             <button id="btnResponsables" onclick="toggleResponsables()">Responsables Comerciales</button>
 
             <!-- Seccion Desplegable Directorio de Clientes -->
-            <div id="contenedorResponsables" style="display:none; margin-top: 20px; padding: 15px; background: #fff; border: 2px solid #0070f3; border-radius: 8px;">
+            <div id="contenedorResponsables" style="display:none;">
                 <h3 style="color: #003D75; margin-top: 0;">Directorio de Clientes</h3>
-                <p>Selecciona un cliente para ver su información de contacto:</p>
+                <p>Selecciona un cliente para ver el responsable comercial que lo atiende:</p>
                 <div id="contenedor-botones" class="btn-container">Cargando clientes...</div>
             </div>
 
@@ -301,6 +321,9 @@
                 if (datosClientes.length === 0) {
                     cargarDatos();
                 }
+                setTimeout(() => {
+                    cont.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
             } else {
                 cont.style.display = "none";
             }
