@@ -23,7 +23,6 @@
             margin: 0;
             font-size: 24px;
         }
-        /* Estilo para el logo ubicado ahora bajo el header */
         .logo-contenedor {
             display: block;
             max-height: 120px;
@@ -64,13 +63,31 @@
 
         /* --- ESTILOS RESPONSABLES COMERCIALES --- */
         #contenedorResponsables {
+            position: relative; /* Referencia para posicionar la X dentro de la caja */
             max-width: 1000px;
             margin: 20px auto;
-            padding: 20px;
+            padding: 25px 20px 20px 20px;
             background: #fff;
             border: 2px solid #0070f3;
             border-radius: 8px;
             box-sizing: border-box;
+        }
+
+        /* Botón X de cierre de la caja Directorio de Clientes */
+        .close-box-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #000;
+            line-height: 1;
+            user-select: none;
+            transition: color 0.2s ease;
+        }
+        .close-box-btn:hover {
+            color: #dc3545;
         }
 
         .btn-container { 
@@ -125,7 +142,7 @@
         .modal-content h3 {
             color: #007bff;
             margin-top: 0;
-            padding-right: 25px; /* Espacio para que no choque con la X */
+            padding-right: 25px;
         }
 
         .modal-content hr {
@@ -134,7 +151,6 @@
             margin: 15px 0;
         }
 
-        /* Botón X de cierre corregido */
         .close-btn {
             position: absolute; 
             top: 12px; 
@@ -200,6 +216,7 @@
 
             <!-- Seccion Desplegable Directorio de Clientes -->
             <div id="contenedorResponsables" style="display:none;">
+                <span class="close-box-btn" onclick="toggleResponsables()">&times;</span>
                 <h3 style="color: #003D75; margin-top: 0;">Directorio de Clientes</h3>
                 <p>Selecciona un cliente para ver el responsable comercial que lo atiende:</p>
                 <div id="contenedor-botones" class="btn-container">Cargando clientes...</div>
