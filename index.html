@@ -61,6 +61,72 @@
             font-weight: bold;
             color: #333;
         }
+
+        /* --- ESTILOS RESPONSABLES COMERCIALES --- */
+        .btn-container { 
+            display: flex; 
+            gap: 10px; 
+            flex-wrap: wrap; 
+            justify-content: center;
+            margin: 20px auto; 
+            max-width: 1000px;
+        }
+        
+        .btn-cliente {
+            padding: 10px 18px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 300px;
+            min-height: 60px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-sizing: border-box;
+            margin: 0; /* Anula el margin auto general de los botones */
+        }
+        .btn-cliente:hover { background-color: #0056b3; }
+
+        /* Ventana emergente (Modal Clientes) */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 2000;
+            top: 0; left: 0; width: 100%; height: 100%; 
+            background-color: rgba(0,0,0,0.5); 
+            justify-content: center; align-items: center;
+        }
+        
+        .modal-content {
+            background: white; 
+            padding: 24px; 
+            border-radius: 8px; 
+            max-width: 400px; 
+            width: 90%;
+            position: relative;
+            text-align: left;
+        }
+
+        .modal-content h3 {
+            color: #007bff;
+            margin-top: 0;
+        }
+
+        .modal-content hr {
+            border: none;
+            border-top: 2px solid #007bff;
+            margin: 15px 0;
+        }
+
+        .close-btn {
+            position: absolute; top: 10px; right: 15px; 
+            font-size: 20px; cursor: pointer; color: #888;
+        }
+        .close-btn:hover { color: #000; }
     </style>
 </head>
 <body>
@@ -94,10 +160,12 @@
             
             <div class="exclusivo-texto">Developed exclusively for ASA AUTOMATION SpA</div>
             
+            <!-- Botón 1 -->
             <a href="https://forms.gle/r4V3gwWJrKAiRNLx8" target="_blank" style="text-decoration: none;">
                 <button id="btnBodega">Ingreso / Egreso Bodega</button>
             </a>
 
+            <!-- Botón 2 -->
             <button id="btnInventario">Archivo Maestro Inventario</button>
 
             <div id="contenedorPDF" style="display:none; margin-top: 20px; border: 2px solid #0070f3; border-radius: 8px; overflow: hidden;">
@@ -107,6 +175,17 @@
                 </div>
             </div>
 
+            <!-- Botón 3: NUEVO -->
+            <button id="btnResponsables" onclick="toggleResponsables()">Responsables Comerciales</button>
+
+            <!-- Seccion Desplegable Directorio de Clientes -->
+            <div id="contenedorResponsables" style="display:none; margin-top: 20px; padding: 15px; background: #fff; border: 2px solid #0070f3; border-radius: 8px;">
+                <h3 style="color: #003D75; margin-top: 0;">Directorio de Clientes</h3>
+                <p>Selecciona un cliente para ver su información de contacto:</p>
+                <div id="contenedor-botones" class="btn-container">Cargando clientes...</div>
+            </div>
+
+            <!-- Botón 4 -->
             <button id="btnReportes">Plan Anual</button>
 
             <div id="contenedorPlan" style="display:none; margin-top: 20px; border: 2px solid #0070f3; border-radius: 8px; overflow: hidden;">
@@ -116,11 +195,13 @@
                 </div>
             </div>
 
+            <!-- Botón 5 -->
             <button id="btnConfig">Catalogos/Manuales</button>
              
         </section>
     </main>
 
+    <!-- Modal Inventario Existente -->
     <div id="modalInventario" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center;">
         <div style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: center; max-width: 450px; width: 90%;">
             <h3 style="margin-top: 0; color: #003D75; font-size: 20px; margin-bottom: 25px;">¿Qué versión deseas revisar?</h3>
@@ -132,11 +213,98 @@
         </div>
     </div>
 
+    <!-- Modal Clientes (Emergente Responsables Comerciales) -->
+    <div id="modal-cliente" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="cerrarModal()">&times;</span>
+            <h3 id="modal-titulo">Cliente</h3>
+            <hr>
+            <p><strong>JEFE DE CUENTAS:</strong> <span id="modal-jefe"></span></p>
+            <p><strong>FANUC:</strong> <span id="modal-email"></span></p>
+            <p><strong>EQUIPO ASA:</strong> <span id="modal-contacto"></span></p>
+            <p><strong>TIPO DE INDUSTRIA:</strong> <span id="modal-industria"></span></p>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; EyV Solutions - 2026</p>
     </footer>
 
     <script src="script.js"></script>
 
+    <!-- Lógica de Responsables Comerciales -->
+    <script>
+        const urlCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnIZ946fJMi0Z43hNigGSDMtY_j3J5P4wXe7YwtPKu_3JT1ObCnKMAhPzlCBJcRrrB_u4YKp2WMQI8/pub?output=csv";
+        let datosClientes = [];
+
+        async function cargarDatos() {
+            try {
+                const respuesta = await fetch(urlCSV);
+                const texto = await respuesta.text();
+                
+                const filas = texto.split("\n").map(row => row.split(","));
+                const encabezados = filas[0].map(h => h.trim());
+                
+                datosClientes = filas.slice(1).map(fila => {
+                    let cliente = {};
+                    encabezados.forEach((encabezado, index) => {
+                        cliente[encabezado] = fila[index] ? fila[index].trim() : "";
+                    });
+                    return cliente;
+                }).filter(c => c["CLIENTE"]);
+
+                generarBotones();
+            } catch (error) {
+                const contenedor = document.getElementById("contenedor-botones");
+                if (contenedor) {
+                    contenedor.innerHTML = "Error al cargar los datos.";
+                }
+                console.error("Error:", error);
+            }
+        }
+
+        function generarBotones() {
+            const contenedor = document.getElementById("contenedor-botones");
+            if (!contenedor) return;
+
+            contenedor.innerHTML = "";
+
+            datosClientes.forEach((item, index) => {
+                const btn = document.createElement("button");
+                btn.className = "btn-cliente";
+                btn.innerText = item["CLIENTE"];
+                btn.onclick = () => abrirModal(index);
+                contenedor.appendChild(btn);
+            });
+        }
+
+        function abrirModal(index) {
+            const cliente = datosClientes[index];
+            
+            document.getElementById("modal-titulo").innerText = cliente["CLIENTE"] || "Sin datos";
+            document.getElementById("modal-jefe").innerText = cliente["JEFE DE CUENTAS"] || "-";
+            document.getElementById("modal-email").innerText = cliente["FANUC"] || "-";
+            document.getElementById("modal-contacto").innerText = cliente["EQUIPO ASA"] || "-";
+            document.getElementById("modal-industria").innerText = cliente["TIPO DE INDUSTRIA"] || "-";
+            
+            document.getElementById("modal-cliente").style.display = "flex";
+        }
+
+        function cerrarModal() {
+            document.getElementById("modal-cliente").style.display = "none";
+        }
+
+        function toggleResponsables() {
+            const cont = document.getElementById("contenedorResponsables");
+            if (cont.style.display === "none" || cont.style.display === "") {
+                cont.style.display = "block";
+                if (datosClientes.length === 0) {
+                    cargarDatos();
+                }
+            } else {
+                cont.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
