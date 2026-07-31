@@ -283,7 +283,7 @@
                 return;
             }
 
-            // Mostrar estado de carga temporal en el iframe o texto si se desea
+            // Mostrar estado de carga temporal en el iframe
             iframe.src = "";
             contenedor.style.display = "block";
             contenedor.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -293,8 +293,8 @@
                 const resultado = await respuesta.json();
 
                 if (resultado.status === "success") {
-                    // Cargamos usando el enlace directo de vista previa/exportación para evitar bloqueos CORS
-                    iframe.src = `https://drive.google.com/uc?export=view&id=${resultado.id}`;
+                    // Cargamos usando el visor embebido estándar de Google Drive de solo lectura (/preview)
+                    iframe.src = `https://drive.google.com/file/d/${resultado.id}/preview`;
                 } else {
                     alert("No se pudo cargar el Plan Anual: " + resultado.message);
                     contenedor.style.display = "none";
