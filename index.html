@@ -224,13 +224,6 @@
             <!-- Botón 4: Plan Anual (Conectado a Google Drive) -->
             <button id="btnReportes" onclick="cargarPlanAnual()">Plan Anual</button>
 
-            <div id="contenedorPlan" style="display:none; margin-top: 20px; border: 2px solid #0070f3; border-radius: 8px; overflow: hidden;">
-                <iframe id="iframePlan" src="" width="100%" height="600px" style="border: none;"></iframe>
-                <div style="text-align: center; padding: 10px; background-color: #f4f4f4;">
-                    <button onclick="cerrarPlan()" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; max-width: 200px; margin: 0 auto;">Cerrar Visor</button>
-                </div>
-            </div>
-
             <!-- Botón 5 -->
             <button id="btnConfig">Catalogos/Manuales</button>
              
@@ -273,44 +266,21 @@
         const urlScriptAnual = "https://script.google.com/macros/s/AKfycbwZQv7ZFhkx7PuoRdh7Vq2AjUK-cVAK8QYyM2lnjXrwlqJMQFR_h2inn7KIlWHi6sOj3A/exec?action=get_anual";
 
         async function cargarPlanAnual() {
-            const contenedor = document.getElementById("contenedorPlan");
-            const iframe = document.getElementById("iframePlan");
-
-            // Si ya está abierto, lo cerramos o alternamos
-            if (contenedor.style.display === "block") {
-                contenedor.style.display = "none";
-                iframe.src = "";
-                return;
-            }
-
-            // Mostrar estado de carga temporal en el iframe
-            iframe.src = "";
-            contenedor.style.display = "block";
-            contenedor.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
             try {
                 const respuesta = await fetch(urlScriptAnual);
                 const resultado = await respuesta.json();
 
                 if (resultado.status === "success") {
-                    // Usamos el visor de Google Docs incrustado con la URL correctamente formateada
-                    iframe.src = `https://docs.google.com/gview?url=https://drive.google.com/uc?export=download%26id=${resultado.id}&embedded=true`;
+                    // Abrimos el documento de forma limpia en una nueva pestaña evitando bloqueos de iframe
+                    const urlDocumento = `https://drive.google.com/file/d/${resultado.id}/view`;
+                    window.open(urlDocumento, '_blank');
                 } else {
                     alert("No se pudo cargar el Plan Anual: " + resultado.message);
-                    contenedor.style.display = "none";
                 }
             } catch (error) {
                 console.error("Error al obtener el PDF anual:", error);
                 alert("Error de conexión al buscar el archivo ANUAL.PDF.");
-                contenedor.style.display = "none";
             }
-        }
-
-        function cerrarPlan() {
-            const contenedor = document.getElementById("contenedorPlan");
-            const iframe = document.getElementById("iframePlan");
-            contenedor.style.display = "none";
-            iframe.src = "";
         }
 
         // Lógica de Responsables Comerciales
