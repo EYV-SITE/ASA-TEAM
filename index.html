@@ -293,8 +293,8 @@
                 const resultado = await respuesta.json();
 
                 if (resultado.status === "success") {
-                    // Cargamos el visor incrustado oficial de Google Drive usando el ID dinámico
-                    iframe.src = `https://drive.google.com/file/d/${resultado.id}/preview`;
+                    // Cargamos usando el enlace directo de vista previa/exportación para evitar bloqueos CORS
+                    iframe.src = `https://drive.google.com/uc?export=view&id=${resultado.id}`;
                 } else {
                     alert("No se pudo cargar el Plan Anual: " + resultado.message);
                     contenedor.style.display = "none";
